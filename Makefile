@@ -6,7 +6,7 @@ LIBSDIR =
 IDIR =
 
 
-SRC =  labyrinthAPI.c clientAPI.c LabyLabo.c
+SRC =  labyrinthAPI.c clientAPI.c LabyLabo.c Bagarre.c
 OBJ = $(SRC:.c=.o)
 EXEC = Bagarre.out
 
@@ -23,7 +23,11 @@ clientAPI.o: clientAPI.h
 %.o: %.c
 	$(CC) $(CCFLAGS) -o $@ -c $< $(IDIR)
 
-LabyLabo.o: labyrinthAPI.h
+LabyLabo.o: labyrinthAPI.h Bagarre.h
+%.o: %.c
+	$(CC) $(CCFLAGS) -o $@ -c $< $(IDIR)
+
+Bagarre.o: labyrinthAPI.h Bagarre.h
 %.o: %.c
 	$(CC) $(CCFLAGS) -o $@ -c $< $(IDIR)
 
