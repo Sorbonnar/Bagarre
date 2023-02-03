@@ -5,9 +5,61 @@
 
 
 
-void MikeTysonBot(int *Laby, t_tile *Labo, t_tile *Exotuile, int x, int y) {
+void MohamedAliBot(int *Laby, t_tile *Labo, t_tile *ExoTuile, int x, int y, int *t) {
 
-    Recuperation(Laby, Labo, Exotuile, x, y);
+    t_move move;
+    int O = 0, M = 0, r = 0, m, w;
+
+    srand(time(NULL));
+
+    int randomNumber = rand() % (x/2 + 1) * 2;
+
+    m = NORMAL_MOVE;
+
+    while (m == NORMAL_MOVE) {
+
+        Recuperation(Laby, Labo, ExoTuile, x, y);
+
+        r = RyoikiTenkai(Labo, move, x, y, &O, &M);
+
+        if (*t == 0) {
+
+            w = rand() % 4;
+            move.insert = w;
+
+            move.rotation = rand() % 4;
+
+            if (w <= 1) {
+                move.number = rand() % (y/2 + 1) * 2;
+            }
+            else {
+                move.number = rand() % (x/2 + 1) * 2;
+            }
+
+            
+
+            move.x = *M;
+            move.y = *O;
+
+            m = sendMove(&move);
+
+            *t = 1;
+
+        }
+
+        else {
+
+            m = getMove(&move);
+
+            *t = 0;
+
+        }
+
+        //sendComment("const char* comment");
+
+        printLabyrinth();
+
+    }
 
 }
 
@@ -26,9 +78,7 @@ int main() {
 
     char Nom[50];
 
-    connectToServer("172.105.76.204", 1234, "Mohamed");
-
-    waitForLabyrinth("TRAINING DONTMOVE display=debug seed=000000", Nom, &x, &y);
+    Party(Nom, &x, &y);
 
     Laby = malloc((x * y * 5 * sizeof(int)));
 
@@ -42,13 +92,8 @@ int main() {
     ExoTuile->W = W;
     
     printLabyrinth();
-
-
-    Recuperation(Laby, Labo, x, y);
-
     
-    //Bagarre(&t); //Bagarre manuelle
-
+    MohamedAliBot(Laby, Labo, ExoTuile, x, y, &t);
 
     closeConnection();
 
