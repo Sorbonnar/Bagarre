@@ -6,16 +6,16 @@
 
 
 
-void Party(char nom[50], int *x, int *y) {
+void Party(char Nom[50], int *x, int *y) {
 
-    connectToServer("172.105.76.204", 1234, "Mohamed");
+    connectToServer("172.105.76.204", 1234, "Mike_Tyson");
 
-    waitForLabyrinth("TRAINING DONTMOVE display=debug seed=000000", Nom, x, y);
+    waitForLabyrinth("TRAINING DONTMOVE", Nom, x, y);
 
 }
 
 
-void Recuperation(int *Laby, t_tile *Labo, t_tile *ExoTuile, int x, int y) {
+void Recuperation(int *Laby, t_tile *Labo, int x, int y) {
 
     int i, j, k = 0;
     
@@ -58,53 +58,7 @@ void ExoTuile(t_tile *ExoTuile, t_move move) {
 }
 
 
-void Insertion(t_tile *Labo, t_move move, t_tile *ExoTuile) {
-    
-    int t;
-
-    if (move.rotation == 1) {
-
-        t = ExoTuile->N;
-
-        ExoTuile->N = ExoTuile->W;
-        ExoTuile->W = ExoTuile->S;
-        ExoTuile->S = ExoTuile->E;
-        ExoTuile->E = t;
-
-    }
-    else if (move.rotation == 2) {
-
-        t = ExoTuile->N;
-
-        ExoTuile->N = ExoTuile->S;
-        ExoTuile->S = t;
-
-        t = ExoTuile->E;
-
-        ExoTuile->E = ExoTuile->W;
-        ExoTuile->W = t;
-
-    }
-    else if (move.rotation == 3) {
-
-        t = ExoTuile->N;
-
-        ExoTuile->N = ExoTuile->E;
-        ExoTuile->E = ExoTuile->S;
-        ExoTuile->S = ExoTuile->W;
-        ExoTuile->W = t;
-
-    }
-
-    
-
-
-
-
-}
-
-
-void MikeTyson(int *t) {
+void MohamedAli(int *t) {
 
     int x, m;
     t_move move;
@@ -154,7 +108,7 @@ int RyoikiTenkai(t_tile *Labo, t_move move, int x, int y, int *O, int *M) {
 
     //Initialisation des compteurs et de r qui vérifie et w qui compte pour éviter de tourner à l'infini comme avec le labyrinthe 3
     int i, j, direction, r = 0, w=0;
-    int coord[2], coordt[2];
+    int coord[2];
 
     while(r != 1){
 
@@ -162,7 +116,7 @@ int RyoikiTenkai(t_tile *Labo, t_move move, int x, int y, int *O, int *M) {
         r++;
 
         //si w dépasse un certain nombre, on arrête la boucle
-        if (w>1000)
+        if (w>100000)
             break;
 
         //On incrémente w à chaque tour de boucle
@@ -174,7 +128,7 @@ int RyoikiTenkai(t_tile *Labo, t_move move, int x, int y, int *O, int *M) {
             for(j = *M; j < x; j++){
 
                 //Si la case n'a pas été verifiée
-                if(labo[i * y + j].Cheminot == 0){
+                if(Labo[i * y + j].Cheminot == 0){
 
                     //On vérifie chaque directions pour vérifier le chemin qui a été tracé
                     for(direction = 0; direction < 4; direction++){
@@ -183,42 +137,42 @@ int RyoikiTenkai(t_tile *Labo, t_move move, int x, int y, int *O, int *M) {
 
                         coord[0] = j;
 
-                        //Nord
-                        if ((direction == 0) && (labo[(coord[0] - 1) * y + coord[1]].S == 0) && (labo[coord[0] * y + coord[1]].N == 0)) {
+                        //Ouest
+                        if ((direction == 0) && (Labo[coord[1] * x + coord[0] - 1].E == 0) && (Labo[coord[1] * x + coord[0]].W == 0)) {
 
                             coord[1]--;
 
                         }
-                        //Est
-                        else if ((direction == 1) && (labo[coord[0] * y + coord[1] + 1].W == 0) && (labo[coord[0] * y + coord[1]].W == 0)) {
+                        //Sud
+                        else if ((direction == 1) && (Labo[(coord[1] + 1) * x + coord[0]].N == 0) && (Labo[coord[1] * x + coord[0]].S == 0)) {
 
                             coord[0]++;
 
                         }
-                        //Sud
-                        else if ((direction == 2) && (labo[(coord[0] + 1) * y + coord[1]].N == 0) && (labo[coord[0] * y + coord[1]].S == 0)) {
+                        //Est
+                        else if ((direction == 2) && (Labo[coord[1] * x + coord[0] + 1].W == 0) && (Labo[coord[1] * x + coord[0]].E == 0)) {
 
                             coord[1]++;
 
                         }
-                        //Ouest
-                        else if ((direction == 3) && (labo[coord[0] * y + coord[1] - 1].E == 0) && (labo[coord[0] * y + coord[1]].W == 0)) {
+                        //Nord
+                        else if ((direction == 3) && (Labo[(coord[1] - 1) * x + coord[0]].S == 0) && (Labo[coord[1] * x + coord[0]].N == 0)) {
 
                             coord[0]--;
 
                         }
 
-                        if(labo[coord[0] * y + coord[1]].Cheminot > 0){
+                        if(Labo[coord[0] * y + coord[1]].Cheminot > 0){
 
                             //Si la case a été compté, on met la case actuelle à la valeur suivante
-                            labo[i * y + j].Cheminot = labo[coord[0] * y + coord[1]].Cheminot + 1;
+                            Labo[i * y + j].Cheminot = Labo[coord[0] * y + coord[1]].Cheminot + 1;
 
-                            if (labo[i * y + j].Cheminot == move.nextItem) {
+                            if (Labo[i * y + j].Item == move.nextItem) {
 
-                                *O = j;
-                                *M = i;
+                                *O = i;
+                                *M = j;
 
-                                return 1
+                                return 1;
 
                             }
 
@@ -235,12 +189,14 @@ int RyoikiTenkai(t_tile *Labo, t_move move, int x, int y, int *O, int *M) {
 
         }
 
+        r = 1;
+
         //On vérifie si tout le tableau à été parcourus
         for(i = 0; i < y; i++){
 
             for(j = 0; j < x; j++){
 
-                if(labo[i * y + j].Cheminot == 0){
+                if(Labo[i * y + j].Cheminot == 0){
 
                     //Il reste des cases sans valeurs donc on passe r à 0 pour continuer la boucle
                     r = 0;

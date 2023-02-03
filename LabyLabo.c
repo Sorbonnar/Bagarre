@@ -5,20 +5,18 @@
 
 
 
-void MohamedAliBot(int *Laby, t_tile *Labo, t_tile *ExoTuile, int x, int y, int *t) {
+void MikeTyson(int *Laby, t_tile *Labo, t_tile *ExoTuile, int x, int y, int *t) {
 
     t_move move;
-    int O = 0, M = 0, r = 0, m, w;
+    int O = 0, M = 0, r = 0, l, w;
 
     srand(time(NULL));
 
-    int randomNumber = rand() % (x/2 + 1) * 2;
+    l = NORMAL_MOVE;
 
-    m = NORMAL_MOVE;
+    while (l == NORMAL_MOVE) {
 
-    while (m == NORMAL_MOVE) {
-
-        Recuperation(Laby, Labo, ExoTuile, x, y);
+        Recuperation(Laby, Labo, x, y);
 
         r = RyoikiTenkai(Labo, move, x, y, &O, &M);
 
@@ -30,18 +28,16 @@ void MohamedAliBot(int *Laby, t_tile *Labo, t_tile *ExoTuile, int x, int y, int 
             move.rotation = rand() % 4;
 
             if (w <= 1) {
-                move.number = rand() % (y/2 + 1) * 2;
+                move.number = (rand() % (y/2)) * 2 + 1;
             }
             else {
-                move.number = rand() % (x/2 + 1) * 2;
+                move.number = (rand() % (x/2)) * 2 + 1;
             }
 
-            
+            move.x = M;
+            move.y = O;
 
-            move.x = *M;
-            move.y = *O;
-
-            m = sendMove(&move);
+            l = sendMove(&move);
 
             *t = 1;
 
@@ -49,13 +45,13 @@ void MohamedAliBot(int *Laby, t_tile *Labo, t_tile *ExoTuile, int x, int y, int 
 
         else {
 
-            m = getMove(&move);
+            l = getMove(&move);
 
             *t = 0;
 
         }
 
-        //sendComment("const char* comment");
+        sendComment("const char* comment");
 
         printLabyrinth();
 
@@ -93,7 +89,7 @@ int main() {
     
     printLabyrinth();
     
-    MohamedAliBot(Laby, Labo, ExoTuile, x, y, &t);
+    MikeTyson(Laby, Labo, ExoTuile, x, y, &t);
 
     closeConnection();
 

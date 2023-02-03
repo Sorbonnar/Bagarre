@@ -16,9 +16,9 @@ typedef struct
 } t_tile;
 
 
-void MikeTyson(int *t);
+void MohamedAli(int *t);
 
-void Recuperation(int *Laby, t_tile *Labo, t_tile *Exotuile, int x, int y);
+void Recuperation(int *Laby, t_tile *Labo, int x, int y);
 
 void ExoTuile(t_tile *ExoTuile, t_move move);
 
