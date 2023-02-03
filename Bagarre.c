@@ -128,7 +128,7 @@ int RyoikiTenkai(t_tile *Labo, t_move move, int x, int y, int *O, int *M) {
             for(j = *M; j < x; j++){
 
                 //Si la case n'a pas été verifiée
-                if(Labo[i * y + j].Cheminot == 0){
+                if(Labo[i * x + j].Cheminot == 0){
 
                     //On vérifie chaque directions pour vérifier le chemin qui a été tracé
                     for(direction = 0; direction < 4; direction++){
@@ -140,37 +140,37 @@ int RyoikiTenkai(t_tile *Labo, t_move move, int x, int y, int *O, int *M) {
                         //Ouest
                         if ((direction == 0) && (Labo[coord[1] * x + coord[0] - 1].E == 0) && (Labo[coord[1] * x + coord[0]].W == 0)) {
 
-                            coord[1]--;
+                            coord[0]--;
 
                         }
                         //Sud
                         else if ((direction == 1) && (Labo[(coord[1] + 1) * x + coord[0]].N == 0) && (Labo[coord[1] * x + coord[0]].S == 0)) {
 
-                            coord[0]++;
+                            coord[1]++;
 
                         }
                         //Est
                         else if ((direction == 2) && (Labo[coord[1] * x + coord[0] + 1].W == 0) && (Labo[coord[1] * x + coord[0]].E == 0)) {
 
-                            coord[1]++;
+                            coord[0]++;
 
                         }
                         //Nord
                         else if ((direction == 3) && (Labo[(coord[1] - 1) * x + coord[0]].S == 0) && (Labo[coord[1] * x + coord[0]].N == 0)) {
 
-                            coord[0]--;
+                            coord[1]--;
 
                         }
 
                         if(Labo[coord[0] * y + coord[1]].Cheminot > 0){
 
                             //Si la case a été compté, on met la case actuelle à la valeur suivante
-                            Labo[i * y + j].Cheminot = Labo[coord[0] * y + coord[1]].Cheminot + 1;
+                            Labo[i * x + j].Cheminot = Labo[coord[1] * x + coord[0]].Cheminot + 1;
 
-                            if (Labo[i * y + j].Item == move.nextItem) {
+                            if (Labo[coord[1] * x + coord[0]].Item == move.nextItem) {
 
-                                *O = i;
-                                *M = j;
+                                *O = coord[1];
+                                *M = coord[0];
 
                                 return 1;
 
